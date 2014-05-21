@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>eventric.js by efacilitation</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">eventric.js</h1>
+        <p class="header">eventric.js helps developers to build flexible, maintainable, long-lasting web applications</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/efacilitation/eventric/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/efacilitation/eventric/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/efacilitation/eventric">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/efacilitation">efacilitation</a></p>
+
+
+      </header>
+      <section>
+        <p><img src="https://raw.githubusercontent.com/wiki/efacilitation/eventric/eventric_logo.png" alt="eventric logo"></p>
+
+<h2>
+<a name="introduction-" class="anchor" href="#introduction-"><span class="octicon octicon-link"></span></a>Introduction <a href="https://travis-ci.org/efacilitation/eventric"><img src="https://travis-ci.org/efacilitation/eventric.svg?branch=master" alt="Build Status"></a>
+</h2>
+
+<p><strong>eventric.js</strong> is a JavaScript Framework (written in CoffeeScript) which helps developers to build flexible, maintainable, long-lasting web applications. It aims to be an alternative to MVC+CRUD-style Frameworks where you put a lot of effort into defining how your data structure has to look like. With <strong>eventric.js</strong> you concentrate instead on the <strong>behaviour</strong> of your business and built your application on it.</p>
+
+<p>Information regarding the Building Blocks, Best Practices, API and more can be found in the <a href="https://github.com/efacilitation/eventric/wiki">Wiki</a>.</p>
+
+<h2>
+<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h2>
+
+<pre lang="shell"><code>npm install eventric
+</code></pre>
+
+<p>For a brief overview on how to use eventric check out this example:</p>
+
+<ul>
+<li><a href="https://github.com/efacilitation/eventric/wiki/ExampleTodo">TodoApp Example</a></li>
+</ul><h2>
+<a name="philosophy" class="anchor" href="#philosophy"><span class="octicon octicon-link"></span></a>Philosophy</h2>
+
+<ul>
+<li>Emphasize <a href="https://www.goodreads.com/book/show/179133.Domain_Driven_Design">Domain-driven design</a>, <a href="https://www.goodreads.com/book/show/12369902-event-centric">Event-driven architecture</a> and <a href="http://cqrs.wordpress.com/documents/task-based-ui">Task-based UIs</a>.</li>
+<li>Explicitly set boundaries for parts of your application (<a href="https://en.wikipedia.org/wiki/Domain-driven_design#Bounded_context">BoundedContexts</a> / <a href="http://martinfowler.com/articles/microservices.html">MicroServices</a>)</li>
+<li>Separation of concerns using Commands and Queries (<a href="http://msdn.microsoft.com/en-us/library/jj554200.aspx">CQRS</a>)</li>
+<li>Capture all changes to your application state as a sequence of events (<a href="http://martinfowler.com/eaaDev/EventSourcing.html">EventSourcing</a> / <a href="http://www.udidahan.com/2009/06/14/domain-events-salvation/">DomainEvents</a>)</li>
+</ul><h2>
+<a name="running-tests" class="anchor" href="#running-tests"><span class="octicon octicon-link"></span></a>Running Tests</h2>
+
+<p>To execute all (client+server) tests, use:</p>
+
+<pre lang="shell"><code>gulp spec
+</code></pre>
+
+<p>You can watch for file-changes with</p>
+
+<pre lang="shell"><code>NODE_ENV=workstation gulp watch
+</code></pre>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>MIT</p>
+
+<p>Copyright (c) 2013-2014 SixSteps Team, eFa GmbH</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
