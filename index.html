@@ -30,22 +30,7 @@
 
       </header>
       <section>
-        <h3>
-<a name="what" class="anchor" href="#what"><span class="octicon octicon-link"></span></a>What?</h3>
-
-<p>Runs on NodeJS and modern Browsers. Therefore it's easy to share code between Server and Client. Information regarding the API and more can be found in the <a href="https://github.com/efacilitation/eventric/wiki">Wiki</a>.</p>
-
-<h3>
-<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?</h3>
-
-<p>It is an alternative to <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>+<a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> Frameworks where you put a lot of effort into defining your data structure and so often end up with an <a href="http://www.martinfowler.com/bliki/AnemicDomainModel.html">anemic domain model</a> on larger projects.</p>
-
-<h3>
-<a name="how" class="anchor" href="#how"><span class="octicon octicon-link"></span></a>How?</h3>
-
-<p>Basically you define <code>queries</code> and <code>commands</code> on <code>BoundedContexts</code>. The <code>commands</code> can result in series of <code>DomainEvents</code> consisting of properties that changed inside affected <code>Aggregates</code>. These <code>DomainEvents</code> represent the state of your domain model. <code>DomainEvents</code> get either persisted directly into the <code>EventStore</code> or send over a <code>RemoteService</code> first. The <code>RemoteService</code> can also be used to execute <code>queries</code> and <code>commands</code> remotely. This makes eventric.js really useful for distributed applications.</p>
-
-<h2>
+        <h2>
 <a name="philosophy" class="anchor" href="#philosophy"><span class="octicon octicon-link"></span></a>Philosophy</h2>
 
 <ul>
