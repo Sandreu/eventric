@@ -252,6 +252,11 @@ a.header {
 	text-decoration: underline;
 }
 
+.header.name {
+  padding-left: 23px;
+  background: url(../images/efa.png) no-repeat;
+}
+
 a.name {
 	white-space: nowrap;
 }
