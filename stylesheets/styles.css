@@ -254,6 +254,11 @@ a.header {
   color: #39d265;
 }
 
+.header.name {
+  padding-left: 23px;
+  background: url(../images/efa.png) no-repeat;
+}
+
 a.name {
   white-space: nowrap;
 }
