@@ -16,9 +16,8 @@
   <body>
     <div class="wrapper">
       <header>
-        <img src="images/eventric.png" border="none">
         <h1 class="header">eventric.js</h1>
-        <p class="header">Build web applications based on Domain-driven Design and Layered Architecture.</p>
+        <p class="header">Build web applications based on Domain-driven Design</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/efacilitation/eventric/zipball/master">Download ZIP</a></li>
@@ -31,7 +30,30 @@
 
       </header>
       <section>
-        <h2>
+        <blockquote>
+<p>Not released yet. This hint will disappear with version 0.1.0.</p>
+</blockquote>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<p><strong>DDD BuildingBlocks</strong></p>
+
+<ul>
+<li>BoundedContext</li>
+<li>DomainEvent</li>
+<li>Aggregate</li>
+</ul><p><strong>CQRS</strong></p>
+
+<ul>
+<li>Persistent ReadModels and ProcessManagers</li>
+<li>Support for Occasionally Connected Applications</li>
+</ul><p><strong>EventSourcing</strong></p>
+
+<ul>
+<li>Automated saving and applying of DomainEvents</li>
+<li>Multiple Store Adapters</li>
+</ul><h2>
 <a name="philosophy" class="anchor" href="#philosophy"><span class="octicon octicon-link"></span></a>Philosophy</h2>
 
 <ul>
@@ -41,124 +63,141 @@
 <li>Separation of concerns using Commands and Queries (<a href="http://msdn.microsoft.com/en-us/library/jj554200.aspx">CQRS</a>)</li>
 <li>Capture all changes to your application state as a sequence of events (<a href="http://martinfowler.com/eaaDev/EventSourcing.html">EventSourcing</a> / <a href="http://www.udidahan.com/2009/06/14/domain-events-salvation/">DomainEvents</a>)</li>
 </ul><h2>
-<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h2>
+<a name="a-note-on-ddd" class="anchor" href="#a-note-on-ddd"><span class="octicon octicon-link"></span></a>A Note on DDD</h2>
 
-<p>Having discussed the upcoming <strong>TodoApp Project</strong> with the Business-Experts and fellow Developers it got clear that we should start with a <code>BoundedContext</code> named <code>Collaboration</code>.</p>
+<p>Please keep in mind that eventric.js supplies you only with a structure that has common-sense in the DDD+CQRS community. But you really should get to know the tactical side of DDD as well, which is at least as important (and fun!) as the technical BuildingBlocks. When you dive into the topic you will quickly learn that the BoundedContext is mostly refered to as a tactical pattern. We decided to make it a technical pattern too because we think that it will help grasp the concept.</p>
+
+<h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h2>
+
+<p>For this example we use <code>MongoDB</code>. So a prerequisite is to install it locally. If its up and running we need the <code>eventric</code> and <code>eventric-store-mongodb</code> npm packages.</p>
+
+<pre><code>npm install eventric
+npm install eventric-store-mongodb
+</code></pre>
+
+<p>Initialize the Store and configure eventric to use it.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">eventric</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'eventric'</span><span class="p">);</span>
+
+<span class="nx">eventricMongoDbStore</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'eventric-store-mongodb'</span><span class="p">);</span>
+<span class="nx">eventricMongoDbStore</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">eventric</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'store'</span><span class="p">,</span> <span class="nx">eventricMongoDbStore</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
 
 <h3>
 <a name="setup-boundedcontext" class="anchor" href="#setup-boundedcontext"><span class="octicon octicon-link"></span></a><a href="https://github.com/efacilitation/eventric/wiki/eventric#eventricboundedcontext">Setup BoundedContext</a>
 </h3>
 
-<blockquote>
-<p>Hint: You should <code>npm install eventric</code> and <code>npm install eventric-store-mongodb</code> first.</p>
-</blockquote>
+<p>Having discussed the upcoming <strong>TodoApp Project</strong> with the Business-Experts and fellow Developers it got clear that we should start with a <code>BoundedContext</code> named <code>Collaboration</code>.</p>
 
-<p>Let's get right into it and create our <code>BoundedContext</code></p>
-
-<div class="highlight highlight-javascript"><pre><span class="nx">eventric</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'eventric'</span><span class="p">);</span>
-
-<span class="nx">collaborationContext</span> <span class="o">=</span> <span class="nx">eventric</span><span class="p">.</span><span class="nx">boundedContext</span><span class="p">();</span>
+<div class="highlight highlight-javascript"><pre><span class="nx">collaboration</span> <span class="o">=</span> <span class="nx">eventric</span><span class="p">.</span><span class="nx">boundedContext</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s1">'collaboration'</span><span class="p">})</span>
 </pre></div>
 
 <h3>
-<a name="adding-aggregate" class="anchor" href="#adding-aggregate"><span class="octicon octicon-link"></span></a><a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#addaggregate">Adding Aggregate</a>
+<a name="define-the-event" class="anchor" href="#define-the-event"><span class="octicon octicon-link"></span></a><a href="">Define the Event</a>
 </h3>
 
-<p>Now that we created the <code>collaborationContext</code> let's add our <code>Todo</code> Aggregate, consisting of a simple <code>changeDescription</code> method.</p>
+<p>Inside of our <code>Collaboration</code> Context things will happen which are called DomainEvents. A technique to come up with these is called <a href="http://ziobrando.blogspot.co.uk/2013/11/introducing-event-storming.html">EventStorming</a>. Lets add one called <code>TodoDescriptionChanged</code>.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">addAggregate</span><span class="p">(</span><span class="s1">'Todo'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="nx">changeDescription</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">description</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="nx">description</span><span class="p">;</span>
+<div class="highlight highlight-javascript"><pre><span class="nx">collaboration</span><span class="p">.</span><span class="nx">addDomainEvent</span><span class="p">(</span><span class="s1">'TodoDescriptionChanged'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="nx">params</span><span class="p">.</span><span class="nx">description</span><span class="p">;</span>
+<span class="p">})</span>
+</pre></div>
+
+<h3>
+<a name="adding-an-aggregate" class="anchor" href="#adding-an-aggregate"><span class="octicon octicon-link"></span></a><a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#addaggregate">Adding an Aggregate</a>
+</h3>
+
+<p>Now we need an Aggregate which actually raises this DomainEvent and is able to handle it. Lets add it.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">collaboration</span><span class="p">.</span><span class="nx">addAggregate</span><span class="p">(</span><span class="s1">'Todo'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">changeDescription</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">description</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">$raiseDomainEvent</span><span class="p">(</span><span class="s1">'TodoDescriptionChanged'</span><span class="p">,</span> <span class="p">{</span><span class="nx">description</span><span class="o">:</span> <span class="nx">description</span><span class="p">})</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">handleTodoDescriptionChanged</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">domainEvent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="nx">domainEvent</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">description</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">});</span>
+
 </pre></div>
 
 <blockquote>
-<p>Hint: values assigned to <code>this.</code> are automatically part of the generated <code>DomainEvent</code></p>
+<p>Hint: <code>this.$raiseDomainEvent</code> is dependency injected and the handle method is called by naming convention after raising.</p>
 </blockquote>
 
 <h3>
-<a name="adding-commands" class="anchor" href="#adding-commands"><span class="octicon octicon-link"></span></a><a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#addcommand">Adding Commands</a>
+<a name="adding-commandhandlers" class="anchor" href="#adding-commandhandlers"><span class="octicon octicon-link"></span></a><a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#addcommand">Adding CommandHandlers</a>
 </h3>
 
-<p>To actually work with the <code>BoundedContext</code> from the outside world we need <code>commands</code> and <code>queries</code>. Let's start by adding a simple <code>command</code> that will create an instance of our <code>Todo</code> Aggregate.</p>
+<p>To actually work with the <code>BoundedContext</code> from the outside world we need <code>CommandHandlers</code>. Let's start by adding a simple one that will create an instance of our <code>Todo</code> Aggregate.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">addCommand</span><span class="p">(</span><span class="s1">'createTodo'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">aggregate</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'Todo'</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<div class="highlight highlight-javascript"><pre><span class="nx">collaboration</span><span class="p">.</span><span class="nx">addCommandHandler</span><span class="p">(</span><span class="s1">'createTodo'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">$aggregate</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s1">'Todo'</span>
+  <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">aggregateId</span><span class="p">){</span>
+    <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">aggregateId</span><span class="p">);</span>
+  <span class="p">})</span>
 <span class="p">});</span>
 </pre></div>
 
 <blockquote>
-<p>Hint: <code>this.aggregate</code> is dependency injected</p>
+<p>Hint: <code>this.$aggregate</code> is dependency injected</p>
 </blockquote>
 
-<p>It would be nice if we could change the description of the <code>Todo</code>, so let's add this <code>command</code> too.</p>
+<p>It would be nice if we could change the description of the <code>Todo</code>, so let's add this <code>CommandHandler</code> too.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">addCommand</span><span class="p">(</span><span class="s1">'changeTodoDescription'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">aggregate</span><span class="p">.</span><span class="nx">command</span><span class="p">(</span><span class="s1">'Todo'</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="s1">'changeDescription'</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">description</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<div class="highlight highlight-javascript"><pre><span class="nx">collaboration</span><span class="p">.</span><span class="nx">addCommandHandler</span><span class="p">(</span><span class="s1">'changeTodoDescription'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">$aggregate</span><span class="p">.</span><span class="nx">command</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s1">'Todo'</span><span class="p">,</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+    <span class="nx">methodName</span><span class="o">:</span> <span class="s1">'changeDescription'</span><span class="p">,</span>
+    <span class="nx">methodParams</span><span class="o">:</span> <span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">description</span><span class="p">]</span>
+  <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+  <span class="p">});</span>
 <span class="p">});</span>
 </pre></div>
 
-<blockquote>
-<p>Hint: If successful this will trigger a <em>Todo:changeDescription</em> <code>DomainEvent</code></p>
-</blockquote>
-
 <h3>
-<a name="adding-query" class="anchor" href="#adding-query"><span class="octicon octicon-link"></span></a><a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#addquery">Adding Query</a>
+<a name="adding-a-domaineventhandler" class="anchor" href="#adding-a-domaineventhandler"><span class="octicon octicon-link"></span></a><a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#adddomaineventhandler">Adding a DomainEventHandler</a>
 </h3>
 
-<p>And last but not least we want the ability to <code>query</code> for a <code>Todo</code> by its id.</p>
+<p>And last but not least we want to console.log when the description of the <code>Todo</code> changes.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">addQuery</span><span class="p">(</span><span class="s1">'getTodoById'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">repository</span><span class="p">(</span><span class="s1">'Todo'</span><span class="p">).</span><span class="nx">findById</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+<div class="highlight highlight-javascript"><pre><span class="nx">collaboration</span><span class="p">.</span><span class="nx">addDomainEventHandler</span><span class="p">(</span><span class="s1">'TodoDescriptionChanged'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">domainEvent</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">domainEvent</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">description</span><span class="p">);</span>
 <span class="p">});</span>
 </pre></div>
 
-<blockquote>
-<p>Hint: <code>this.repository</code> is dependency injected</p>
-</blockquote>
-
 <h3>
-<a name="executing-commands-and-queries" class="anchor" href="#executing-commands-and-queries"><span class="octicon octicon-link"></span></a>Executing <a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#command">Commands</a> and <a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#query">Queries</a>
+<a name="executing-commands" class="anchor" href="#executing-commands"><span class="octicon octicon-link"></span></a>Executing <a href="https://github.com/efacilitation/eventric/wiki/BoundedContext#command">Commands</a>
 </h3>
 
-<p>Initialize the <code>collaborationContext</code>, create a <code>Todo</code>, change the description of it and finally query the description again.</p>
+<p>Initialize the Context, create a <code>Todo</code> and tell the <code>Todo</code> to change its description.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">command</span><span class="p">({</span>
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">todoId</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="nx">collaboration</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="nx">collaboration</span><span class="p">.</span><span class="nx">command</span><span class="p">({</span>
     <span class="nx">name</span><span class="o">:</span> <span class="s1">'createTodo'</span>
-  <span class="p">},</span>
-  <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">todoId</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">command</span><span class="p">({</span>
+  <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">todoId</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">collaboration</span><span class="p">.</span><span class="nx">command</span><span class="p">({</span>
       <span class="nx">name</span><span class="o">:</span> <span class="s1">'changeTodoDescription'</span><span class="p">,</span>
       <span class="nx">params</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">id</span><span class="o">:</span> <span class="nx">todoId</span><span class="p">,</span>
         <span class="nx">description</span><span class="o">:</span> <span class="s1">'Do something'</span>
       <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">collaborationContext</span><span class="p">.</span><span class="nx">query</span><span class="p">({</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="s1">'getTodoById'</span><span class="p">,</span>
-        <span class="nx">params</span><span class="o">:</span> <span class="p">{</span>
-          <span class="nx">id</span><span class="o">:</span> <span class="nx">todoId</span>
-        <span class="p">}</span>
-      <span class="p">},</span>
-      <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">readTodo</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">readTodo</span><span class="p">.</span><span class="nx">description</span><span class="p">);</span>
-      <span class="p">})</span>
-    <span class="p">});</span>
+    <span class="p">})</span>
   <span class="p">});</span>
 
 <span class="p">});</span>
 </pre></div>
 
-<blockquote>
-<p><code>eventric</code> will implement <a href="https://github.com/kriskowal/q">promises</a> to avoid such a "<a href="http://calculist.org/blog/2011/12/14/why-coroutines-wont-work-on-the-web/">Pyramid of Doom</a>" in the future.</p>
-</blockquote>
+<p>After executing the Commands the DomainEventHandler will print <code>Do something</code>. Your <code>Todo</code> Aggregate is now persisted using EventSourcing.</p>
 
-<p>This will output <code>Do something</code>. Your <code>Todo</code> Aggregate is now persisted using EventSourcing.</p>
-
-<p>Congratulations, you have successfully applied DDD (tactical+technical) and CQRS! :)</p>
+<p>Congratulations, you have successfully applied DDD and CQRS! :)</p>
 
 <h2>
 <a name="running-tests" class="anchor" href="#running-tests"><span class="octicon octicon-link"></span></a>Running Tests</h2>
