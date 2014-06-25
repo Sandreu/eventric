@@ -16,9 +16,8 @@
   <body>
     <div class="wrapper">
       <header>
-        <img src="images/eventric.png" border="none">
         <h1 class="header">eventric.js</h1>
-        <p class="header">Build web applications based on Domain-driven Design</p>
+        <p class="header">Build JavaScript applications based on DDD, CQRS and EventSourcing</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/efacilitation/eventric/zipball/master">Download ZIP</a></li>
@@ -35,19 +34,29 @@
 <p>Not released yet. This hint will disappear with version 0.1.0.</p>
 </blockquote>
 
+<p>Runs on NodeJS and modern Browsers. Therefore it's easy to share code between Server and Client. Information regarding the API and more can be found in the <a href="https://github.com/efacilitation/eventric/wiki">Wiki</a>.</p>
+
+<h3>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?</h3>
+
+<p>It is an alternative to <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>+<a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> Frameworks where you put a lot of effort into defining your data structure and so often end up with an <a href="http://www.martinfowler.com/bliki/AnemicDomainModel.html">anemic domain model</a> on larger projects.</p>
+
 <h2>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <p><strong>DDD BuildingBlocks</strong></p>
 
 <ul>
-<li>BoundedContext</li>
-<li>DomainEvent</li>
-<li>Aggregate</li>
+<li>Well defined Interface to your <code>BoundedContext</code>
+</li>
+<li>Use <code>DomainEvents</code> everywhere</li>
+<li>Encapsulate your Domain-Logic in <code>Aggregates</code>
+</li>
 </ul><p><strong>CQRS</strong></p>
 
 <ul>
-<li>Persistent ReadModels and ProcessManagers</li>
+<li>Persistent <code>ReadModels</code> and <code>ProcessManagers</code>
+</li>
 <li>Support for Occasionally Connected Applications</li>
 </ul><p><strong>EventSourcing</strong></p>
 
@@ -115,7 +124,7 @@ npm install eventric-store-mongodb
 
 <div class="highlight highlight-javascript"><pre><span class="nx">collaboration</span><span class="p">.</span><span class="nx">addAggregate</span><span class="p">(</span><span class="s1">'Todo'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">changeDescription</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">description</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">$raiseDomainEvent</span><span class="p">(</span><span class="s1">'TodoDescriptionChanged'</span><span class="p">,</span> <span class="p">{</span><span class="nx">description</span><span class="o">:</span> <span class="nx">description</span><span class="p">})</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">$emitDomainEvent</span><span class="p">(</span><span class="s1">'TodoDescriptionChanged'</span><span class="p">,</span> <span class="p">{</span><span class="nx">description</span><span class="o">:</span> <span class="nx">description</span><span class="p">})</span>
   <span class="p">}</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">handleTodoDescriptionChanged</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">domainEvent</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="nx">domainEvent</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">description</span><span class="p">;</span>
@@ -125,7 +134,7 @@ npm install eventric-store-mongodb
 </pre></div>
 
 <blockquote>
-<p>Hint: <code>this.$raiseDomainEvent</code> is dependency injected and the handle method is called by naming convention after raising.</p>
+<p>Hint: <code>this.$emitDomainEvent</code> is dependency injected and the handle method is called by naming convention after raising.</p>
 </blockquote>
 
 <h3>
@@ -210,7 +219,7 @@ npm install eventric-store-mongodb
 
 <p>You can watch for file-changes with</p>
 
-<pre lang="shell"><code>NODE_ENV=workstation gulp watch
+<pre lang="shell"><code>gulp watch
 </code></pre>
 
 <h2>
